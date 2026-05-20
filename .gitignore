@@ -8,6 +8,10 @@ __pycache__/
 *.pyc
 .env
 .env.*
+!.env.example
 *.log
 .DS_Store
 .vscode/
+lib/generated/prisma/
+
+/app/generated/prisma
