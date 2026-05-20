@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+PairSketch is a Next.js app for a private couples website. Part one adds
+simple username/password authentication backed by PostgreSQL sessions.
 
 ## Getting Started
 
-First, run the development server:
+Create a local environment file and point it at a PostgreSQL database:
+
+```bash
+cp .env.example .env
+npm install
+npm run db:dev
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Authentication
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/signup` creates a user with a hashed password.
+- `/login` creates an httpOnly session cookie.
+- `/dashboard` is protected and redirects anonymous visitors to `/login`.
+- `/api/auth/me` returns the current user for future partner/canvas features.
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+The Prisma schema is in `prisma/schema.prisma`. Use:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:dev       # create or update local development migrations
+npm run db:migrate   # apply migrations in hosted environments
+npm run prisma:generate
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For AWS hosting later, use a managed PostgreSQL database such as Amazon RDS
+or Aurora PostgreSQL and set `DATABASE_URL` in the app environment.
 
-## Deploy on Vercel
+## Next parts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+After this auth foundation is approved, the next pieces are:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Partner connection codes.
+2. Couple rooms.
+3. Shared touch drawing canvas.
